@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lisbon, from someone who grew up there</title>
+  <meta name="description"
+    content="A local's guide to Lisbon and the coast around it: favorites, a Top 10, ready-made day plans, beaches and festivals.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lisbon, from someone who grew up there">
+  <meta property="og:description"
+    content="A local's guide to Lisbon and the coast around it: favorites, a Top 10, ready-made day plans, beaches and festivals.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Young+Serif&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    :root {
+      --blue: #1b4b9b;
+      --blue-deep: #0f2f66;
+      --ink: #13233f;
+      --muted: #53627d;
+      --paper: #f6f9fd;
+      --card: #ffffff;
+      --line: #d9e3f2;
+      --tile: #dce8f8;
+      --tram: #f5b800;
+      --teal: #0b7c72;
+      --display: 'Young Serif', Georgia, 'Times New Roman', serif;
+      --body: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 1rem;
+      line-height: 1.55
+    }
+
+    a {
+      color: var(--blue)
+    }
+
+    button {
+      font: inherit;
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--tram);
+      outline-offset: 2px
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 18px
+    }
+
+    /* Hero */
+    .hero {
+      background-color: var(--blue);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%233b73c9' stroke-width='1.3'%3E%3Ccircle cx='24' cy='24' r='7'/%3E%3Cpath d='M24 5l19 19-19 19L5 24z'/%3E%3Cpath d='M10 0A10 10 0 0 1 0 10M38 0A10 10 0 0 0 48 10M0 38A10 10 0 0 1 10 48M48 38A10 10 0 0 0 38 48'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 48px 48px;
+      color: #fff;
+      padding: 48px 0 0;
+      overflow: hidden;
+    }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(2.2rem, 8.5vw, 3.7rem);
+      line-height: 1.06;
+      margin: 0 0 14px;
+      max-width: 15ch;
+      letter-spacing: -.01em
+    }
+
+    .hero .lede {
+      font-size: 1.12rem;
+      max-width: 44ch;
+      margin: 0;
+      color: #e8f0fc
+    }
+
+    .rail {
+      position: relative;
+      height: 92px;
+      margin-top: 30px;
+      border-bottom: 4px solid var(--tram)
+    }
+
+    .tram {
+      position: absolute;
+      left: 18px;
+      bottom: 4px;
+      width: 170px;
+      height: auto;
+      animation: roll 1.9s cubic-bezier(.2, .75, .25, 1) both
+    }
+
+    @keyframes roll {
+      from {
+        transform: translateX(-120%)
+      }
+
+      to {
+        transform: translateX(0)
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .tram {
+        animation: none
+      }
+    }
+
+    /* Why Lisbon */
+    .why {
+      padding: 34px 0 8px
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: 1.65rem;
+      line-height: 1.2;
+      margin: 0 0 10px
+    }
+
+    .why p {
+      max-width: 62ch;
+      margin: 0 0 18px
+    }
+
+    .glance {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      border-top: 2px solid var(--blue)
+    }
+
+    .glance div {
+      display: grid;
+      grid-template-columns: minmax(120px, 32%) 1fr;
+      gap: 6px 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .glance dt {
+      font-weight: 700;
+      color: var(--blue-deep)
+    }
+
+    .glance dd {
+      margin: 0
+    }
+
+    @media (max-width:480px) {
+      .glance div {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .why .next {
+      margin: 20px 0 0;
+      color: var(--muted)
+    }
+
+    /* Explorer */
+    .explorer {
+      padding: 30px 0 10px
+    }
+
+    .modes {
+      display: inline-flex;
+      border: 2px solid var(--blue);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+      background: #fff;
+      margin: 6px 0 14px;
+      max-width: 100%
+    }
+
+    .modes button {
+      border: 0;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--blue-deep)
+    }
+
+    .modes button[aria-pressed="true"] {
+      background: var(--blue);
+      color: #fff
+    }
+
+    @media (max-width:400px) {
+      .modes button {
+        padding: 8px 11px;
+        font-size: .93rem
+      }
+    }
+
+    .mode-note {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 62ch
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 12px
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .chip .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%
+    }
+
+    .chip .count {
+      color: var(--muted);
+      font-weight: 400
+    }
+
+    .chip[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff
+    }
+
+    .chip[aria-pressed="true"] .count {
+      color: #c6d3ea
+    }
+
+    #map {
+      height: 50vh;
+      min-height: 320px;
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      margin: 4px 0 10px
+    }
+
+    .legend-note {
+      font-size: .82rem;
+      color: var(--muted);
+      margin: 0 0 18px
+    }
+
+    /* Lists */
+    .group {
+      margin-top: 26px
+    }
+
+    .group h3 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: 1.25rem;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .group h3 .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex: none
+    }
+
+    .group .intro {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: .95rem
+    }
+
+    .place {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left-width: 5px;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px
+    }
+
+    .place-top {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      flex-wrap: wrap
+    }
+
+    .place-name {
+      font-weight: 700;
+      font-size: 1.02rem
+    }
+
+    .badge {
+      background: var(--tram);
+      color: #3a2b00;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 1px 8px;
+      border-radius: 999px
+    }
+
+    .badge.car {
+      background: var(--tile);
+      color: var(--blue-deep)
+    }
+
+    .badge.fav {
+      background: #fde4ea;
+      color: #9f1239
+    }
+
+    .place-addr {
+      color: var(--muted);
+      font-size: .84rem
+    }
+
+    .place-when {
+      color: var(--teal);
+      font-weight: 700;
+      font-size: .9rem;
+      margin-top: 4px
+    }
+
+    .place-note {
+      margin: 6px 0 0;
+      max-width: 62ch
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      margin-top: 10px;
+      font-size: .88rem;
+      font-weight: 600
+    }
+
+    .links button {
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      color: var(--blue);
+      text-decoration: underline;
+      font-weight: 600
+    }
+
+    /* Plans */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin: 0 0 16px
+    }
+
+    .plan-btn {
+      text-align: left;
+      border: 2px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer
+    }
+
+    .plan-btn strong {
+      display: block;
+      font-size: 1.02rem
+    }
+
+    .plan-btn span {
+      display: block;
+      color: var(--muted);
+      font-size: .88rem
+    }
+
+    .plan-btn[aria-pressed="true"] {
+      border-color: var(--blue);
+      background: var(--tile)
+    }
+
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 14px
+    }
+
+    .day-btn {
+      border: 1.5px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .day-btn[aria-pressed="true"] {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff
+    }
+
+    .day-head h3 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 0 0 6px
+    }
+
+    .day-head p {
+      margin: 0 0 8px;
+      max-width: 62ch
+    }
+
+    .how {
+      background: var(--tile);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 10px 0 16px;
+      max-width: 62ch
+    }
+
+    .stops {
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+
+    .stop {
+      position: relative;
+      padding-left: 46px
+    }
+
+    .stop .num {
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px var(--line)
+    }
+
+    .leg {
+      margin: -4px 0 8px 46px;
+      color: var(--muted);
+      font-size: .85rem
+    }
+
+    /* Videos and footer */
+    .videos {
+      padding: 26px 0 8px
+    }
+
+    .video-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      max-width: 620px
+    }
+
+    .video-card strong {
+      display: block;
+      margin-bottom: 4px
+    }
+
+    footer {
+      margin-top: 30px;
+      background: var(--blue-deep);
+      color: #d7e3f7;
+      padding: 22px 0 34px;
+      font-size: .9rem
+    }
+
+    footer p {
+      margin: 0 0 8px;
+      max-width: 64ch
+    }
+
+    footer a {
+      color: #fff
+    }
+
+    .leaflet-popup-content {
+      font-family: var(--body);
+      line-height: 1.4
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>Lisbon, from someone who grew up there</h1>
+      <p class="lede">Bruno's guide to the city and the coast around it, about four hours from Copenhagen.</p>
+    </div>
+    <div class="wrap">
+      <div class="rail" aria-hidden="true">
+        <svg class="tram" viewBox="0 0 180 84" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="3" x2="180" y2="3" stroke="#e8f0fc" stroke-width="1.5" />
+          <line x1="95" y1="3" x2="95" y2="18" stroke="#e8f0fc" stroke-width="2" />
+          <rect x="14" y="18" width="152" height="50" rx="12" fill="#f5b800" />
+          <rect x="14" y="48" width="152" height="8" fill="#e0a300" />
+          <rect x="26" y="26" width="24" height="20" rx="3" fill="#dce8f8" />
+          <rect x="58" y="26" width="24" height="20" rx="3" fill="#dce8f8" />
+          <rect x="90" y="26" width="24" height="20" rx="3" fill="#dce8f8" />
+          <rect x="122" y="26" width="24" height="20" rx="3" fill="#dce8f8" />
+          <rect x="150" y="26" width="10" height="26" rx="3" fill="#0f2f66" />
+          <circle cx="42" cy="72" r="8" fill="#13233f" />
+          <circle cx="138" cy="72" r="8" fill="#13233f" />
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="why wrap" aria-labelledby="why-h">
+      <h2 id="why-h">Why Lisbon</h2>
+      <p>I was born in Lisbon and lived there until I was 30. If you want a few days of sun, old streets and great food
+        without a long trip, this is where I would send you.</p>
+      <dl class="glance">
+        <div>
+          <dt>Flight from Copenhagen</dt>
+          <dd>About 4 hours, nonstop, every day (SAS, TAP and Norwegian fly it).</dd>
+        </div>
+        <div>
+          <dt>Time difference</dt>
+          <dd>Lisbon is one hour behind Denmark, all year round.</dd>
+        </div>
+        <div>
+          <dt>Sunshine</dt>
+          <dd>About 2,800 hours a year in Lisbon, against about 1,800 in Copenhagen.</dd>
+        </div>
+        <div>
+          <dt>Beach and palaces</dt>
+          <dd>Cascais (the coast) and Sintra (the palaces) are each about 40 minutes from the center by train.</dd>
+        </div>
+      </dl>
+      <p class="next">Below you will find everything on my list, a short Top 10 of my own favorites for a first visit,
+        and ready-made plans.</p>
+    </section>
+
+    <section class="explorer wrap" aria-labelledby="explore-h">
+      <h2 id="explore-h">Where to go</h2>
+      <div class="modes" role="group" aria-label="View">
+        <button type="button" data-mode="all" aria-pressed="true">Everything</button>
+        <button type="button" data-mode="top" aria-pressed="false">Top 10</button>
+        <button type="button" data-mode="plan" aria-pressed="false">Plan a trip</button>
+      </div>
+      <p class="mode-note" id="modeNote"></p>
+
+      <div id="exploreControls">
+        <div class="chips" id="chips"></div>
+      </div>
+      <div id="planControls" hidden>
+        <div class="plans" id="plans"></div>
+        <div class="days" id="days"></div>
+      </div>
+
+      <div id="map" role="region" aria-label="Map of places"></div>
+      <p class="legend-note" id="legendNote"></p>
+
+      <div id="content"></div>
+    </section>
+
+    <section class="videos wrap" aria-labelledby="vid-h">
+      <h2 id="vid-h">Watch</h2>
+      <div class="video-card">
+        <strong>Michael Portillo's Guide to Lisbon, Portugal</strong>
+        The places under "Portillo's Lisbon" come from this episode.
+        <div class="links"><a href="https://youtu.be/REg1--N72SA" target="_blank" rel="noopener">Watch on YouTube</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Made by Bruno with Claude.</p>
+      <p>Festival dates and opening hours change from year to year, so check before you book. Place details come from
+        Google Maps, and Wikipedia links are included where an English article exists.</p>
+    </div>
+  </footer>
+
+  <script>
+    const places = [
+      { name: "Calouste Gulbenkian Museum", cat: "Museums", lat: 38.7378124, lng: -9.1535455, addr: "Av. de Berna 45A, Lisboa", note: "One of Europe's great small museums — ancient to modern art in a beautiful garden.", pid: "ChIJNTZ10A0zGQ0ROwhyCh2mkwg", wiki: "https://en.wikipedia.org/wiki/Calouste_Gulbenkian_Museum" },
+      { name: "MAAT", cat: "Museums", lat: 38.6958561, lng: -9.193312, addr: "Av. Brasília, Lisboa", note: "Riverside contemporary art & architecture museum, best at sunset.", pid: "ChIJkfTl003LHg0RxFtZGUxQE8s", wiki: "https://en.wikipedia.org/wiki/Museum_of_Art,_Architecture_and_Technology" },
+      { name: "Museu Nacional do Azulejo", cat: "Museums", lat: 38.7250559, lng: -9.113539, addr: "R. Me. Deus 4, Lisboa", note: "Portugal's tile museum in a former convent — includes a huge pre-earthquake Lisbon panel.", pid: "ChIJX6FT2ugzGQ0RKLxFhkpvHbM", wiki: "https://en.wikipedia.org/wiki/National_Museum_of_the_Azulejo" },
+      { name: "Museu Nacional de Arte Antiga", cat: "Museums", lat: 38.7048412, lng: -9.1614643, addr: "R. das Janelas Verdes, Lisboa", note: "Portugal's top painting & sculpture collection, lovely river-view garden and café.", pid: "ChIJGXuOYpk0GQ0RJCutP__xMsk", wiki: "https://en.wikipedia.org/wiki/National_Museum_of_Ancient_Art" },
+
+      { name: "Torre de Belém", cat: "Monuments", lat: 38.6915837, lng: -9.2159773, addr: "Av. Brasília, Lisboa", note: "UNESCO-listed 16th-century tower on the Tagus.", pid: "ChIJS5zCw0LLHg0RP1FSz63cAjA", wiki: "https://en.wikipedia.org/wiki/Belém_Tower", fav: true, area: "Belém" },
+      { name: "Mosteiro dos Jerónimos", cat: "Monuments", lat: 38.6978909, lng: -9.2067039, addr: "Praça do Império, Lisboa", note: "Manueline masterpiece, burial site of Vasco da Gama.", pid: "ChIJS5zCw0LLHg0R7euWjjRddYc", wiki: "https://en.wikipedia.org/wiki/Jerónimos_Monastery", fav: true, area: "Belém" },
+      { name: "Padrão dos Descobrimentos", cat: "Monuments", lat: 38.6935973, lng: -9.2057115, addr: "Av. Brasília, Lisboa", note: "Monument to the Age of Discovery, riverside promenade.", pid: "ChIJScpeDUTLHg0RGeb5iw7wSH8", wiki: "https://en.wikipedia.org/wiki/Monument_of_the_Discoveries", fav: true, area: "Belém" },
+      { name: "Castelo de São Jorge", cat: "Monuments", lat: 38.7139092, lng: -9.1334762, addr: "R. de Santa Cruz do Castelo, Lisboa", note: "Moorish hilltop castle, best panoramic view over the whole city.", pid: "ChIJm8MOtHc0GQ0R1zPkmUFwwLQ", wiki: "https://en.wikipedia.org/wiki/São_Jorge_Castle", fav: true, area: "Downtown" },
+      { name: "Cristo Rei", cat: "Monuments", lat: 38.6786319, lng: -9.1713326, addr: "Av. do Cristo Rei, Almada", note: "Christ the King statue across the river — sweeping views of Lisbon & the bridge.", pid: "ChIJPcfcnuc0GQ0Rgerp5o_yC2Q", wiki: "https://en.wikipedia.org/wiki/Christ_the_King_(Almada)" },
+      { name: "Palácio Nacional da Pena", cat: "Monuments", lat: 38.7875851, lng: -9.3906089, addr: "Estrada da Pena, Sintra", note: "Fantastical hilltop palace, the icon of Sintra.", pid: "ChIJZ1qc8r_aHg0RWDtny30aJ3c", wiki: "https://en.wikipedia.org/wiki/Pena_Palace" },
+      { name: "Quinta da Regaleira", cat: "Monuments", lat: 38.7963069, lng: -9.3960244, addr: "Sintra", note: "Mystical estate with the famous Initiation Well and hidden tunnels.", pid: "ChIJe9TGZMLaHg0RI2WK1BbF4b8", wiki: "https://en.wikipedia.org/wiki/Quinta_da_Regaleira" },
+
+      { name: "Parque Eduardo VII", cat: "Parks", lat: 38.7267017, lng: -9.1540483, addr: "1070-051 Lisboa", note: "Lisbon's grand central park. Hosts the Feira do Livro (Book Fair), usually late May–mid June each year.", pid: "ChIJ9URKb3EzGQ0RdS9ECoVzGS0", wiki: "https://en.wikipedia.org/wiki/Edward_VII_Park" },
+
+      { name: "Praia de Carcavelos", cat: "Beaches", lat: 38.6795953, lng: -9.3360168, addr: "Carcavelos", note: "Wide, easy-access beach on the Cascais train line — surf schools, good for everyone.", pid: "ChIJzXDc38LIHg0RCSZHP0qTHFs" },
+      { name: "Praia do Guincho", cat: "Beaches", lat: 38.7324707, lng: -9.4724771, addr: "Cascais", note: "Wild Atlantic beach, dunes, wind & kite surfing, stunning sunsets.", pid: "ChIJ8R8Kq3bDHg0Rl1Y1RJkjn9I", wiki: "https://en.wikipedia.org/wiki/Praia_do_Guincho", car: true },
+      { name: "Praia da Adraga", cat: "Beaches", lat: 38.8042525, lng: -9.4848076, addr: "Sintra coast", note: "Wild, cliff-backed beach with a sea cave, much less crowded.", pid: "ChIJk1opavHcHg0RfoX0sBrz70w", car: true },
+      { name: "Cabo da Roca", cat: "Beaches", lat: 38.7804282, lng: -9.4989171, addr: "Colares", note: "Westernmost point of continental Europe — dramatic cliffs.", pid: "ChIJjUNdI8DaHg0Rr7P8mKjYOpU", wiki: "https://en.wikipedia.org/wiki/Cabo_da_Roca", car: true },
+
+      { name: "Bairro Alto Hotel", cat: "Places to Stay", lat: 38.7102778, lng: -9.1433333, addr: "Praça Luís de Camões, Lisboa", note: "Chic hotel right in the historic center, rooftop bar with castle views.", pid: "ChIJr78TU340GQ0RAEUOr_Glzgw" },
+      { name: "Memmo Alfama Hotel", cat: "Places to Stay", lat: 38.7102204, lng: -9.1305785, addr: "Alfama, Lisboa", note: "Boutique hotel tucked into Alfama, unbeatable rooftop terrace.", pid: "ChIJh_wV6nY0GQ0R4zelsyqGUxc" },
+
+      { name: "Miradouro da Senhora do Monte", cat: "Parks", lat: 38.7192091, lng: -9.1327772, addr: "Lg do Monte, Lisboa", note: "The highest, best viewpoint in Lisbon — go for sunset.", pid: "ChIJV32DNI8zGQ0R9GqiWeuNH2E" },
+      { name: "Cervejaria Ramiro", cat: "Food and Hangouts", lat: 38.720257, lng: -9.1357429, addr: "Av. Alm. Reis 1H, Lisboa", note: "Legendary seafood — book ahead, or go early on a weekday.", pid: "ChIJ-R6VlIUzGQ0RX8x1jtg9lh0" },
+      { name: "LX Factory", cat: "Food and Hangouts", lat: 38.7034602, lng: -9.1787831, addr: "R. Rodrigues de Faria, Lisboa", note: "Old factory turned creative hub — shops, murals, cafés under the bridge.", pid: "ChIJ5dveYa80GQ0RrEP1FKqq6zM" },
+      { name: "Time Out Market", cat: "Food and Hangouts", lat: 38.7070608, lng: -9.1456691, addr: "Av. 24 de Julho, Lisboa", note: "Food hall with some of the city's best kitchens under one roof.", pid: "ChIJdWBeWYc0GQ0RktxySU7hjxM", wiki: "https://en.wikipedia.org/wiki/Time_Out_Market_Lisboa" },
+      { name: "Pastéis de Belém", cat: "Food and Hangouts", lat: 38.6975105, lng: -9.2032276, addr: "R. de Belém 84-92, Lisboa", note: "The original pastel de nata, since 1837.", pid: "ChIJW3H9LkXLHg0RZZZttMb27_8", area: "Belém" },
+
+      { name: "Santo António & Festas de Lisboa", cat: "Festivals & Events", lat: 38.7205373, lng: -9.1459023, addr: "Avenida da Liberdade (Marchas Populares parade)", when: "All June, peak night 12–13 June", note: "Lisbon's biggest annual party — Santo António is the city's patron saint. Neighborhoods (Alfama, Mouraria, Graça, Bairro Alto) fill with arraiais: grilled sardines, paper decorations, wine and dancing until sunrise. The Marchas Populares parade — costumed groups from each neighborhood — marches down Avenida da Liberdade on the night of the 12th." },
+      { name: "Carnaval de Torres Vedras", cat: "Festivals & Events", lat: 39.0788156, lng: -9.2342196, addr: "Torres Vedras (about 50 min from Lisbon)", when: "February (movable, follows Carnival)", note: "Billed as \"the most Portuguese Carnival\" — free entry, satirical floats poking fun at politics and celebrities, and matrafonas (men dressed as women)." },
+      { name: "Feira do Livro de Lisboa (Book Fair)", cat: "Festivals & Events", lat: 38.7267017, lng: -9.1540483, addr: "Parque Eduardo VII", when: "Late May – mid June", note: "Free entry, hundreds of publisher pavilions, author signings and an open-air cinema — an old, much-loved Lisbon tradition since the 1930s." },
+      { name: "Rock in Rio Lisboa", cat: "Festivals & Events", lat: 38.7855874, lng: -9.0928626, addr: "Parque do Tejo, Parque das Nações", when: "Biennial (even years), late June", note: "A multi-day \"City of Rock\" with several stages — one of Europe's biggest festivals, held every two years." },
+      { name: "NOS Alive", cat: "Festivals & Events", lat: 38.6988292, lng: -9.2396705, addr: "Passeio Marítimo de Algés, Oeiras", when: "Early-to-mid July", note: "Lisbon's flagship indie/rock/alternative festival, right on the riverfront with the city skyline glowing across the water." },
+      { name: "Peixe em Lisboa (food festival)", cat: "Festivals & Events", lat: 38.707771, lng: -9.1377517, addr: "Pátio da Galé, Praça do Comércio", when: "April", note: "Gastronomy festival celebrating fish and seafood, with pop-up restaurants from top chefs right on Praça do Comércio." },
+      { name: "Rossio Christmas Market", cat: "Festivals & Events", lat: 38.7138802, lng: -9.139051, addr: "Praça Dom Pedro IV (Rossio)", when: "Mid-November – late December", note: "Wooden chalets, mulled wine, roasted chestnuts and a little electric Christmas train looping through Baixa." },
+      { name: "Wonderland Lisboa", cat: "Festivals & Events", lat: 38.7267017, lng: -9.1540483, addr: "Parque Eduardo VII", when: "Late November – early January", note: "Lisbon's big Christmas market: giant Ferris wheel, ice rink and 100+ stalls, free to enter." },
+      { name: "New Year's Eve Fireworks", cat: "Festivals & Events", lat: 38.7072828, lng: -9.1363613, addr: "Praça do Comércio", when: "31 December, midnight", note: "Free fireworks over the Tagus plus concerts — the city's biggest countdown, with 100,000+ people. Arrive early for a good spot." },
+
+      { name: "Cascais Old Town & Marina", cat: "Cascais & Sintra", lat: 38.6920803, lng: -9.4191835, addr: "Cascais", note: "Former fishing village turned elegant resort town — cobbled streets, a yacht marina, and a 33 to 40 minute train ride from Cais do Sodré.", pid: "ChIJmaqD337FHg0RI9s4IV2qTMY" },
+      { name: "Boca do Inferno", cat: "Cascais & Sintra", lat: 38.6913117, lng: -9.4306866, addr: "Av. Rei Humberto II de Itália, Cascais", note: "\"Hell's Mouth\" — dramatic cliffs and a rock arch where the Atlantic crashes through. Free, and a short walk from Cascais center.", pid: "ChIJQaGBiCDEHg0RO2cxBXOEkRo" },
+      { name: "Casa das Histórias Paula Rego", cat: "Cascais & Sintra", lat: 38.6950163, lng: -9.4242764, addr: "Av. da República 300, Cascais", note: "Striking pyramid-towered museum (Souto de Moura) dedicated to painter Paula Rego, one of Portugal's greatest modern artists.", pid: "ChIJ5-AfEybEHg0RbTld9js-QwI" },
+      { name: "National Palace of Sintra", cat: "Cascais & Sintra", lat: 38.7976627, lng: -9.3906554, addr: "Largo Rainha Dona Amélia, Sintra", note: "The palace right in Sintra's old town, easy to miss next to Pena — look for its two giant conical chimneys, a medieval royal residence.", pid: "ChIJjUNdI8DaHg0RgBanweCmwHQ" },
+      { name: "Sintra Historic Center", cat: "Cascais & Sintra", lat: 38.7970531, lng: -9.3905666, addr: "Sintra", note: "Fairy-tale hill town, UNESCO World Heritage — narrow lanes, pastry shops (try the travesseiros), and the base for Pena Palace & Quinta da Regaleira, both listed under Monuments.", pid: "ChIJA5gcEDTbHg0RVGbP3ycphAo" },
+
+      { name: "Costa da Caparica", cat: "Beaches", lat: 38.5484832, lng: -9.20728, addr: "Costa da Caparica, across the Tagus", note: "Lisbon's own beach, on the other side of the river: a very long stretch of Atlantic sand that guides measure at anywhere from 15 to 30 km. You do not need a car. Take the ferry from Cais do Sodré to Cacilhas and then a bus, or a direct bus over the bridge; allow about 45 to 60 minutes either way. In summer (June to September) a little tourist train, the Transpraia, runs along the southern beaches.", pid: "ChIJMXtwjqO0Hg0RiuA1DY73s9M" },
+      { name: "Óbidos", cat: "Around", lat: 39.3635196, lng: -9.1569821, addr: "Óbidos (about 1h from Lisbon)", when: "Chocolate Festival: early-to-mid March", note: "A walled medieval hilltop town — whitewashed houses, a castle (now a pousada), and the Ginjinha cherry liqueur served in tiny chocolate cups. Hosts the International Chocolate Festival every March.", pid: "ChIJd-g-z5G0GA0RtObZOV3qsJc" },
+
+      { name: "Luvaria Ulisses", cat: "From the Video 🎥", lat: 38.7123617, lng: -9.1397272, addr: "R. do Carmo 87A, Chiado", note: "Tiny glove shop open since 1925 — the last one in Portugal making bespoke leather gloves by hand, fitted to your size from a wall of drawers.", pid: "ChIJ4ZIOsXg0GQ0RnQVQEww9-1U" },
+      { name: "Mercado de Campo de Ourique", cat: "From the Video 🎥", lat: 38.7163117, lng: -9.1667393, addr: "R. Coelho da Rocha 47, Campo de Ourique", note: "Local, low-key food hall (the un-touristy alternative to Time Out Market) — great for salted cod, tinned fish, and unusual delicacies.", pid: "ChIJFfe5foEzGQ0RRsM8qXffSEo" },
+      { name: "O Melhor Bolo de Chocolate do Mundo", cat: "From the Video 🎥", lat: 38.7163701, lng: -9.167294, addr: "R. Ten. Ferreira Durão 62A, Campo de Ourique", note: "\"The World's Best Chocolate Cake\" — a tiny shop right by the market, self-proclaimed but with the reviews to back it up.", pid: "ChIJzVRiU2czGQ0R0UU6wV06K-w" },
+      { name: "Fábrica Sant'Anna", cat: "From the Video 🎥", lat: 38.7094282, lng: -9.1434388, addr: "Largo Barão Quintela 4, Chiado", note: "Lisbon's oldest working tile workshop (since 1741) — hand-painted azulejos, and some locations let you design and glaze your own tile.", pid: "ChIJZ5oLXH40GQ0RY7lUxC8i6QY" },
+      { name: "Bonjardim (Rei dos Frangos)", cat: "From the Video 🎥", lat: 38.715904, lng: -9.1405964, addr: "Tv. de Santo Antão 11", note: "Lisbon's most famous piri-piri chicken, charcoal-grilled since the 1950s — often cited as the place that inspired the whole piri-piri-chicken genre (Nando's included).", pid: "ChIJB0wsKIEzGQ0RHsU0tgF4b-w" },
+      { name: "Hotel Palácio Estoril", cat: "From the Video 🎥", lat: 38.7047728, lng: -9.3962742, addr: "Estoril, Cascais", note: "The grand hotel where Ian Fleming stayed in 1941 while shadowing double agent Duško Popov — the real-life inspiration for James Bond, and the source of the plot of Casino Royale.", pid: "ChIJweCBlcTFHg0RSrRfIDXIf_M" },
+
+      { name: "Rua dos Cegos, 20–22", cat: "Pre-1755 Survivors", lat: 38.7133449, lng: -9.1309551, addr: "Alfama", note: "A small 16th-century house — already ~200 years old by 1755. Easy to overlook: narrow, ordinary, wedged into the street. Watch for the projecting upper floor, and the devotional tile panel on the façade (the 17th-century original was replaced by an early-20th-century copy).", pid: "ChIJiVA4O3Y0GQ0RSWrGcOgx-A8" },
+      { name: "Casa das Varandas — Rua dos Bacalhoeiros, 8", cat: "Pre-1755 Survivors", lat: 38.7090025, lng: -9.1324405, addr: "Rua dos Bacalhoeiros 8, near Casa dos Bicos", note: "Parts predate 1755, but the house was damaged in the earthquake, rebuilt, damaged again by an 1781 fire, then altered further in the 19th century — several centuries folded into one wall. \"Survived\" here means patched together, not untouched.", pid: "ChIJq6oaMXc0GQ0RktIrQYhsKcE" },
+      { name: "Beco de São Miguel", cat: "Pre-1755 Survivors", lat: 38.7110229, lng: -9.1296969, addr: "Beside the Church of São Miguel, Alfama", note: "A five-storey house with one of Alfama's most dramatic overhangs — the upper floors push out well beyond the ground floor, and some of the original wooden supports are still visible underneath.", pid: "ChIJtVVhhXY0GQ0RS_tGTAUydmY" },
+      { name: "Rua da Atalaia", cat: "Pre-1755 Survivors", lat: 38.7125568, lng: -9.1449706, addr: "Bairro Alto", note: "A narrow, unusually tall 17th-century house — six storeys under a pointed pitched roof. Less the picture-postcard cottage people imagine, more an old urban apartment block making the most of a tiny plot.", pid: "ChIJofMc_H80GQ0Rjnz1F11k2gA" },
+      { name: "Largo do Chafariz de Dentro, 32–33", cat: "Pre-1755 Survivors", lat: 38.7112266, lng: -9.1278692, addr: "Alfama", note: "A four-storey house on an ordinary Alfama square, probably 17th-century, with the same projecting upper floors — no plaque, no fence, just part of everyday life on the square.", pid: "ChIJDbsQMXQ0GQ0RSUCgE2EyxB0" },
+
+      { name: "Praia da Rainha", cat: "Beaches", lat: 38.6178621, lng: -9.2142536, addr: "South of Costa da Caparica town", note: "Further south than the town beaches and wilder, popular for swimming and surfing. In summer the Transpraia train stops along this stretch; otherwise go by car or taxi.", pid: "ChIJq35rGGe1Hg0RwgR4E1zDz1A", car: true },
+      { name: "Fonte da Telha", cat: "Beaches", lat: 38.5733333, lng: -9.1969444, addr: "Far south end of the Caparica coast", note: "The quiet end of the strip: an old fishing-village feel, beach bars serving grilled fish, fishermen working the sand and a good sunset. A bus runs here from Cacilhas, so a car is not required, but one makes the day easier.", pid: "ChIJawaRIc60Hg0RxwaucPtoP5A", car: true },
+      { name: "Praia do Portinho da Arrábida", cat: "Beaches", lat: 38.4800732, lng: -8.978538499999999, addr: "Arrábida Natural Park, about 50 minutes by car", note: "A sheltered cove with clear, calm water below the green cliffs of Arrábida. Summer rules matter: from roughly early June to mid-September (the dates shift each year), private cars are kept off the access road during the day. Park at Creiro and take the shuttle, or take the train to Setúbal and a shuttle bus from there. Outside summer there are no restrictions, and September is a good month to go.", pid: "ChIJE7p1vi1FGQ0RcIHFJeN7nOc", car: true },
+      { name: "Cabo Espichel", cat: "Around", lat: 38.4144444, lng: -9.222777800000001, addr: "End of the Setúbal peninsula, near Sesimbra", note: "A windswept cape with steep cliffs, the Nossa Senhora do Cabo sanctuary, a lighthouse and fossil dinosaur footprints nearby. Sunset is the favorite time to go. Few visitors make it out here.", pid: "ChIJseyIseKsHg0RQN9kTVt1B1g", car: true },
+      { name: "Parque Florestal de Monsanto", cat: "Local Lisbon", lat: 38.7235491, lng: -9.1917632, addr: "Monsanto, west Lisbon", note: "Lisbon's green lung: a big forest park with viewpoints, walking and cycling trails, picnic areas and playgrounds. Locals come here to run, bike and escape the city. It is large, so a bike, e-scooter or car lets you see much more of it.", pid: "ChIJF9IfO8zMHg0Ruh60BZnTq3E", car: true },
+      { name: "Águas Livres Aqueduct", cat: "Local Lisbon", lat: 38.7265505, lng: -9.1665281, addr: "Calçada da Quintinha 6, Campolide", note: "An 18th-century aqueduct that came through the 1755 earthquake almost undamaged. You can walk along the top, about a kilometre over 35 arches, with views across the Alcântara valley. A good head for heights helps. It is closed on Mondays, and there is a small entry fee, so check the hours first. Bus 702 from Marquês de Pombal gets you close, or take a taxi.", pid: "ChIJw3OwjmkzGQ0RS6X9CykgE4Y", wiki: "https://en.wikipedia.org/wiki/Águas_Livres_Aqueduct" },
+      { name: "Amoreiras Towers and 360° viewpoint", cat: "Local Lisbon", lat: 38.7236016, lng: -9.1614515, addr: "Av. Eng. Duarte Pacheco", note: "Three mirrored postmodern towers from the 1980s by the architect Tomás Taveira, with a shopping center at the base. Take the lift from the mall to the open rooftop on Tower 1, about 170 m up, for a 360-degree view of the river, the bridges and the castle. It is a good place for sunset, and there is a small entry fee.", pid: "ChIJS9mASG8zGQ0RD27uDdjNSfo" },
+      { name: "Avenida de Roma", cat: "Local Lisbon", lat: 38.7491745, lng: -9.1419307, addr: "Alvalade", note: "An everyday Lisbon avenue about 2 km long, lined mostly with buildings from the Estado Novo era, old pastry shops and cafés, bookshops and independent stores. There are no sights, just a good look at how locals shop and have coffee. Roma metro station (green line) is on the avenue.", pid: "ChIJiTgJZKkzGQ0R3THLXldrBxM" },
+
+      { name: "Tram 28", cat: "Monuments", lat: 38.7152423, lng: -9.1360784, addr: "Pin shows the Martim Moniz terminus", note: "A vintage yellow tram that climbs through Graça, Alfama, Baixa, Chiado and Estrela and ends in Campo de Ourique, about 45 to 55 minutes end to end. It is ordinary public transport, so it is packed, and a pickpocket target, from about 10:00 to 18:00. Ride early or after 18:00, and to get a seat, board at the Campo de Ourique end instead of Martim Moniz. Tram 12 covers the Alfama stretch in about 25 minutes if you are short on time.", pid: "ChIJb9ykN0QzGQ0RVCVqd9U3kpI", fav: true, area: "Downtown" },
+      { name: "Santa Justa Lift (Elevador de Santa Justa)", cat: "Monuments", lat: 38.7121301, lng: -9.1394297, addr: "R. de Santa Justa, Baixa", note: "A neo-Gothic iron lift from 1902, about 45 m tall, that links the Baixa with the Carmo square above. It was designed by Raoul Mesnier du Ponsard, who studied under Gustave Eiffel. The queue for the ride is often long, but the terrace at the top, next to the ruins of the Carmo Convent that the 1755 earthquake left roofless, has the same view.", pid: "ChIJL42Kt3g0GQ0RfGlw4GJ8FOE", wiki: "https://en.wikipedia.org/wiki/Santa_Justa_Lift", fav: true, area: "Downtown" },
+      { name: "Oceanário de Lisboa", cat: "Museums", lat: 38.7635435, lng: -9.0937415, addr: "Esplanada Dom Carlos I, Parque das Nações", note: "A large oceanarium built for Expo 98 and designed by Peter Chermayeff, with one huge central tank that you circle twice on your way through. It works for kids and adults alike. Google lists it as open 10:00 to 19:00, so check before you go.", pid: "ChIJCVgOdYMxGQ0RMOFiOmcuP5g", wiki: "https://en.wikipedia.org/wiki/Lisbon_Oceanarium", fav: true, area: "Parque das Nações" },
+      { name: "Parque das Nações", cat: "Parks", lat: 38.7686316, lng: -9.095858, addr: "East Lisbon, the Expo 98 area", note: "The modern riverside district built on former industrial land for the 1998 world fair. Walk the waterfront promenade and gardens, ride the cable car (about 12 minutes along the river), look at Calatrava's Oriente station and Siza's Portugal Pavilion, and end at the Vasco da Gama Bridge. The Oceanário is here too, and the red metro line goes straight to Oriente.", pid: "ChIJa-MuBYkxGQ0Rbp63LPEbsj0", wiki: "https://en.wikipedia.org/wiki/Parque_das_Nações", fav: true, area: "Parque das Nações" },
+      { name: "Restelo Hermitage (Ermida de São Jerónimo)", cat: "Monuments", lat: 38.7013356, lng: -9.2137376, addr: "Praça de Itália, Restelo", note: "A small Manueline chapel from the early 16th century, and a National Monument, on the hill above Belém. It is much quieter than the monuments by the river. The grounds are open, though trees block part of the view, and the inside is usually closed except for services.", pid: "ChIJ4UnrR2fLHg0RqJSLJo1ukIA", wiki: "https://en.wikipedia.org/wiki/Restelo_Hermitage", fav: true, area: "Belém" }
+    ];
+
+    const CAT = {
+      "Museums": { label: "Museums and attractions", icon: "🏛️", hex: "#8b5cf6" },
+      "Monuments": { label: "Monuments and landmarks", icon: "🏰", hex: "#d97706" },
+      "Parks": { label: "Parks and viewpoints", icon: "🌳", hex: "#16a34a" },
+      "Beaches": {
+        label: "Beaches", icon: "🏖️", hex: "#0ea5e9",
+        intro: "Two coasts. The Cascais train line runs along the northern one, starting with Carcavelos. Costa da Caparica and the beaches south of it are across the river. Places marked \"Car helps\" are easier with a rental car."
+      },
+      "Places to Stay": { label: "Places to stay", icon: "🛏️", hex: "#ec4899" },
+      "Food and Hangouts": { label: "Food and hangouts", icon: "🍽️", hex: "#e11d48" },
+      "Local Lisbon": {
+        label: "Local Lisbon", icon: "🏘️", hex: "#65a30d",
+        intro: "Places most visitors skip. All of them are inside the city, and most are easy by metro, bus or taxi."
+      },
+      "Festivals & Events": {
+        label: "Festivals and events", icon: "🎉", hex: "#0d9488",
+        intro: "These repeat every year. Dates move a little, so check the current year before you book."
+      },
+      "Cascais & Sintra": {
+        label: "Cascais and Sintra", icon: "🌊", hex: "#4f46e5",
+        intro: "Both are about 40 minutes from central Lisbon by train. Pena Palace and Quinta da Regaleira in Sintra are listed under Monuments."
+      },
+      "Around": {
+        label: "Day trips", icon: "🧭", hex: "#475569",
+        intro: "Further out, and each one is worth a day."
+      },
+      "From the Video 🎥": {
+        label: "Portillo's Lisbon", icon: "📺", hex: "#c026d3",
+        intro: "Places from Michael Portillo's episode on Lisbon (linked at the bottom of the page)."
+      },
+      "Pre-1755 Survivors": {
+        label: "Survived 1755", icon: "🏚️", hex: "#78350f",
+        intro: "A 1755 earthquake, fire and tsunami destroyed most of old Lisbon. A few ordinary houses still stand from before it. Look for andares de ressalto: upper floors that stick out over the street, a medieval way to gain space on a narrow plot. It is a clue, not proof, because many of these houses were repaired and rebuilt over the centuries. Examples collected in a r/portugal thread."
+      }
+    };
+    const CAT_ORDER = Object.keys(CAT);
+
+    const ESSENTIAL = new Set([
+      "Tram 28", "Castelo de São Jorge", "Santa Justa Lift (Elevador de Santa Justa)",
+      "Oceanário de Lisboa", "Parque das Nações",
+      "Restelo Hermitage (Ermida de São Jerónimo)", "Torre de Belém", "Padrão dos Descobrimentos", "Mosteiro dos Jerónimos", "Pastéis de Belém"
+    ]);
+    const AREAS = [
+      {
+        key: "Downtown", title: "Downtown", intro: "The castle on the hill, the old tram, and the iron lift above the Baixa.",
+        names: ["Tram 28", "Castelo de São Jorge", "Santa Justa Lift (Elevador de Santa Justa)"]
+      },
+      {
+        key: "Parque das Nações", title: "Parque das Nações (Zona Oriente)", intro: "The Expo 98 area, east of the center, with the Oceanário and the waterfront.",
+        names: ["Oceanário de Lisboa", "Parque das Nações"]
+      },
+      {
+        key: "Belém", title: "Belém", intro: "A riverside walk past many monuments, with a quiet chapel on the hill above.",
+        names: ["Restelo Hermitage (Ermida de São Jerónimo)", "Torre de Belém", "Padrão dos Descobrimentos", "Mosteiro dos Jerónimos", "Pastéis de Belém"]
+      }
+    ];
+
+    places.forEach((p, i) => { p.id = i; p.essential = ESSENTIAL.has(p.name); });
+    const byName = Object.fromEntries(places.map(p => [p.name, p]));
+
+    /* Day building blocks and plans */
+    const DAYS = {
+      old: {
+        title: "Alfama and the castle",
+        blurb: "Start at the castle when it opens, then walk down through the oldest streets in the city. Look up as you go: houses whose upper floors overhang the street are among the few that were standing in 1755. Finish with sunset at the miradouro and dinner at Ramiro (book ahead).",
+        how: "Alfama is steep. A short taxi ride between the castle area and the miradouro saves your legs.",
+        stops: ["Castelo de São Jorge", "Rua dos Cegos, 20–22", "Beco de São Miguel", "Largo do Chafariz de Dentro, 32–33", "Casa das Varandas — Rua dos Bacalhoeiros, 8", "Miradouro da Senhora do Monte", "Cervejaria Ramiro"]
+      },
+      belem: {
+        title: "Belém and the river",
+        blurb: "The monuments of the Age of Discovery sit close together along the water. Have your pastel de nata at Pastéis de Belém early, before the queue builds, then follow the river to the tower. Finish at MAAT and LX Factory.",
+        how: "Belém is a stop on the Cascais train line from Cais do Sodré, so it is a short ride from the center.",
+        stops: ["Pastéis de Belém", "Mosteiro dos Jerónimos", "Padrão dos Descobrimentos", "Torre de Belém", "MAAT", "LX Factory"]
+      },
+      culture: {
+        title: "Museum, park and Chiado",
+        blurb: "Spend the morning at the Gulbenkian and its garden, then walk down through Eduardo VII Park toward the center. Have piri-piri chicken at Bonjardim, browse the old shops of Chiado (a glove shop open since 1925, a tile workshop that dates from 1741) and finish at the Time Out Market.",
+        how: null,
+        stops: ["Calouste Gulbenkian Museum", "Parque Eduardo VII", "Bonjardim (Rei dos Frangos)", "Luvaria Ulisses", "Fábrica Sant'Anna", "Time Out Market"]
+      },
+      sintra: {
+        title: "Sintra",
+        blurb: "Fairy-tale palaces in the hills. Go to Pena first while it is quiet, then Quinta da Regaleira, have lunch in the old town, and end at the National Palace with its two white chimneys.",
+        how: "The train from Rossio station to Sintra takes about 40 minutes. From the station, take a bus or taxi up to Pena Palace; it is a steep climb on foot.",
+        stops: ["Palácio Nacional da Pena", "Quinta da Regaleira", "Sintra Historic Center", "National Palace of Sintra"]
+      },
+      cascais: {
+        title: "The Cascais coast",
+        blurb: "Beach, grand hotels and cliffs along one train line. Start at Carcavelos, stop at Estoril to see the grand hotel with a James Bond connection, spend the afternoon in Cascais, and finish at Guincho for sunset.",
+        how: "The Cascais line from Cais do Sodré takes 33 to 40 minutes to Cascais, and Carcavelos and Estoril are stops on the way. Guincho is a few kilometers west of Cascais, so take a bus or taxi.",
+        stops: ["Praia de Carcavelos", "Hotel Palácio Estoril", "Cascais Old Town & Marina", "Casa das Histórias Paula Rego", "Boca do Inferno", "Praia do Guincho"]
+      },
+      south: {
+        title: "Across the river",
+        blurb: "Cristo Rei looks over the whole city from the south bank. Afterwards, go on to Costa da Caparica, a long stretch of Atlantic beach popular with surfers.",
+        how: "Take the ferry from Cais do Sodré to Cacilhas, a ride of about ten minutes, then a bus. Buses go on to both places from Cacilhas, so you do not need a car, but check the current routes.",
+        stops: ["Cristo Rei", "Costa da Caparica"]
+      },
+      obidos: {
+        title: "Óbidos",
+        blurb: "A walled medieval town about an hour from Lisbon. Walk the walls and try ginjinha, the cherry liqueur, served in a little chocolate cup. The International Chocolate Festival takes place here every March.",
+        how: "Allow about an hour each way by bus or car.",
+        stops: ["Óbidos"]
+      },
+      local: {
+        title: "Local Lisbon",
+        blurb: "A day in the Lisbon that visitors rarely see. Have coffee on Avenida de Roma, spend the middle of the day in Monsanto, walk along the top of the aqueduct that survived the 1755 earthquake, and finish on the Amoreiras rooftop for sunset.",
+        how: "All four stops are inside the city. Roma has its own metro station on the green line, and for Monsanto a bike, e-scooter or taxi makes things easier. The aqueduct is closed on Mondays, so plan this day for Tuesday to Sunday.",
+        stops: ["Avenida de Roma", "Parque Florestal de Monsanto", "Águas Livres Aqueduct", "Amoreiras Towers and 360° viewpoint"]
+      },
+      wild: {
+        title: "The wild coast",
+        blurb: "Three Atlantic stops in one loop: the cliff-backed beach at Adraga, Cabo da Roca (the westernmost point of continental Europe), and Guincho for sunset. A rental car lets you string them together on your own schedule.",
+        how: "This is a car day. Go early on sunny weekends, and keep a layer handy, because the wind off the Atlantic is strong.",
+        stops: ["Praia da Adraga", "Cabo da Roca", "Praia do Guincho"]
+      },
+      caparica: {
+        title: "Costa da Caparica",
+        blurb: "Start at the town end, work your way south along the sand, and finish at Fonte da Telha for grilled fish and sunset. In summer the Transpraia train runs along the southern beaches; the rest of the year, use a taxi or drive.",
+        how: "No car needed to get there: ferry from Cais do Sodré to Cacilhas and a bus on (45 to 60 minutes in total), or a direct bus over the bridge. A car just makes the quiet southern end easier.",
+        stops: ["Costa da Caparica", "Praia da Rainha", "Fonte da Telha"]
+      },
+      arrabida: {
+        title: "Cabo Espichel and Arrábida",
+        blurb: "Two edges of the Setúbal peninsula. Start at the windswept cape at Cabo Espichel, then drive east along the coast to the cove at Portinho da Arrábida for a swim. It is a long day, so if you only have time for one, pick Arrábida.",
+        how: "This is a car day. Arrábida is about 50 minutes by car from Lisbon. In summer, private cars are kept off the road to Portinho during the day (dates shift each year), so park at Creiro and take the shuttle.",
+        stops: ["Cabo Espichel", "Praia do Portinho da Arrábida"]
+      },
+      favdown: {
+        title: "Downtown",
+        blurb: "Ride Tram 28 early, before it fills up, then climb to the castle and finish with the iron lift above the Baixa.",
+        how: "Tram 28 is packed between about 10:00 and 18:00. Ride early or after 18:00, and to get a seat, board at the Campo de Ourique end and ride east. The pin shows the Martim Moniz end of the line, a short uphill walk from the castle.",
+        stops: ["Tram 28", "Castelo de São Jorge", "Santa Justa Lift (Elevador de Santa Justa)"]
+      },
+      favest: {
+        title: "Parque das Nações",
+        blurb: "The Expo 98 area, east of the center. Start at the Oceanário, then ride the cable car along the river and walk the waterfront to the Vasco da Gama Bridge.",
+        how: "Take the red metro line to Oriente station, which is in the park. Allow half a day. The cable car ride takes about 12 minutes.",
+        stops: ["Oceanário de Lisboa", "Parque das Nações"]
+      },
+      favbelem: {
+        title: "Belém and the river",
+        blurb: "Begin on the hill at the Restelo chapel for a quiet start, then walk down to the river and along it past the tower, the Discoveries monument and the monastery. End with a pastel de nata.",
+        how: "Belém is a stop on the Cascais train line from Cais do Sodré.",
+        stops: ["Restelo Hermitage (Ermida de São Jerónimo)", "Torre de Belém", "Padrão dos Descobrimentos", "Mosteiro dos Jerónimos", "Pastéis de Belém"]
+      }
+    };
+    const PLANS = [
+      { key: "bruno", title: "Bruno's favorites", length: "3 days", sub: "Downtown, Parque das Nações and Belém", days: ["favdown", "favest", "favbelem"] },
+      { key: "weekend", title: "Long weekend", length: "3 days", sub: "The essentials, all inside Lisbon", days: ["old", "belem", "culture"] },
+      { key: "five", title: "Lisbon, Sintra and Cascais", length: "5 days", sub: "Add the palaces and the coast", days: ["old", "belem", "sintra", "cascais", "culture"] },
+      { key: "week", title: "One week", length: "7 days", sub: "Everything above, plus the south bank and Óbidos", days: ["old", "belem", "sintra", "cascais", "culture", "south", "obidos"] },
+      { key: "local", title: "Like a local", length: "1 day", sub: "The Lisbon beyond the center", days: ["local"] },
+      { key: "car", title: "With a rental car", length: "3 days", sub: "The wild coast, Caparica and Arrábida", days: ["wild", "caparica", "arrabida"] }
+    ];
+    Object.values(DAYS).forEach(d => d.stops.forEach(n => { if (!byName[n]) console.warn("Missing place:", n); }));
+
+    /* Helpers */
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const $ = id => document.getElementById(id);
+    function km(a, b) {
+      const R = 6371, r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLng = (b.lng - a.lng) * r;
+      const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLng / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(h));
+    }
+    function legText(a, b) {
+      const d = km(a, b);
+      if (d < 2) {
+        const m = Math.max(50, Math.round(d * 1000 / 10) * 10);
+        const min = Math.max(1, Math.round(d * 1000 * 1.3 / 80));
+        return `About ${min} min on foot (${m} m)`;
+      }
+      return `About ${d.toFixed(d < 10 ? 1 : 0)} km by tram, bus, train or taxi`;
+    }
+    function gmapsUrl(p) { return p.pid ? `https://www.google.com/maps/place/?q=place_id:${p.pid}` : `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`; }
+    function popupHtml(p, n) {
+      return `<b>${n ? n + '. ' : ''}${p.name}</b>${p.when ? `<br><span style="color:#0b7c72;font-weight:700;font-size:12px">When: ${p.when}</span>` : ''}<br><span style="color:#53627d;font-size:12px">${p.addr}</span><br><span style="font-size:12px">${p.note}</span>`;
+    }
+    function pinIcon(hex) {
+      return L.divIcon({
+        className: '', iconSize: [18, 18], iconAnchor: [9, 18], popupAnchor: [0, -16],
+        html: `<div style="width:18px;height:18px;border-radius:50% 50% 50% 0;background:${hex};transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)"></div>`
+      });
+    }
+    function numIcon(hex, n) {
+      return L.divIcon({
+        className: '', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14],
+        html: `<div style="width:28px;height:28px;border-radius:50%;background:${hex};color:#fff;font:700 13px/24px system-ui,sans-serif;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)">${n}</div>`
+      });
+    }
+
+    /* Map */
+    const map = L.map('map', { scrollWheelZoom: false }).setView([38.74, -9.2], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors', maxZoom: 19 }).addTo(map);
+    const baseLayer = L.layerGroup().addTo(map);
+    const planLayer = L.layerGroup().addTo(map);
+    const baseMarkers = {};
+    places.forEach(p => {
+      const m = L.marker([p.lat, p.lng], { icon: pinIcon(CAT[p.cat].hex) });
+      m.bindPopup(popupHtml(p));
+      baseMarkers[p.id] = m;
+    });
+    let currentMarkers = baseMarkers;
+
+    function fit(list) {
+      if (!list.length) return;
+      if (list.length === 1) { map.setView([list[0].lat, list[0].lng], 14); return; }
+      map.fitBounds(L.latLngBounds(list.map(p => [p.lat, p.lng])), { padding: [30, 30], maxZoom: 13 });
+    }
+    function focusPlace(p) {
+      const m = currentMarkers[p.id]; if (!m) return;
+      map.setView([p.lat, p.lng], Math.max(map.getZoom(), 14));
+      m.openPopup();
+      $('map').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    }
+
+    /* Card */
+    function cardHtml(p, opts = {}) {
+      const c = CAT[p.cat];
+      return `<article class="place" style="border-left-color:${c.hex}" data-id="${p.id}">
+    <div class="place-top"><span class="place-name">${p.name}</span>${p.fav && opts.favBadge ? '<span class="badge fav">Bruno\'s favorite</span>' : ''}${p.car ? '<span class="badge car">Car helps</span>' : ''}</div>
+    <div class="place-addr">${p.addr}</div>
+    ${p.when ? `<div class="place-when">When: ${p.when}</div>` : ''}
+    <p class="place-note">${p.note}</p>
+    <div class="links">
+      <button type="button" data-focus="${p.id}">Show on map</button>
+      <a href="${gmapsUrl(p)}" target="_blank" rel="noopener">Open in Google Maps</a>
+      ${p.wiki ? `<a href="${p.wiki}" target="_blank" rel="noopener">Wikipedia</a>` : ''}
+    </div>
+  </article>`;
+    }
+
+    /* State */
+    let mode = 'all', filterCat = null, planKey = 'bruno', dayIdx = 0;
+    const MODE_NOTE = {
+      top: "My own picks, grouped by area. Start here if you only have a few days.",
+      all: "Everything on the list. Tap a category to narrow it down. My favorites carry a red label, and places that are easier with a rental car carry a blue one.",
+      plan: "Pick a plan, then step through it day by day. Stops are in a sensible walking order, and the map shows the route."
+    };
+
+    function tierList() { return places.filter(p => mode === 'all' || p.essential); }
+
+    function renderChips() {
+      const tier = tierList();
+      const counts = {}; tier.forEach(p => counts[p.cat] = (counts[p.cat] || 0) + 1);
+      let html = `<button type="button" class="chip" data-cat="" aria-pressed="${filterCat === null}"><span class="dot" style="background:#13233f"></span>All <span class="count">${tier.length}</span></button>`;
+      CAT_ORDER.filter(k => counts[k]).forEach(k => {
+        html += `<button type="button" class="chip" data-cat="${k}" aria-pressed="${filterCat === k}"><span class="dot" style="background:${CAT[k].hex}"></span>${CAT[k].label} <span class="count">${counts[k]}</span></button>`;
+      });
+      const favCount = tier.filter(p => p.fav).length;
+      if (favCount) {
+        html = html.replace('</button>', `</button><button type="button" class="chip" data-cat="__fav" aria-pressed="${filterCat === '__fav'}"><span class="dot" style="background:#e11d48"></span>Bruno's favorites <span class="count">${favCount}</span></button>`);
+      }
+      const carCount = tier.filter(p => p.car).length;
+      if (mode === 'all' && carCount) {
+        html += `<button type="button" class="chip" data-cat="__car" aria-pressed="${filterCat === '__car'}"><span class="dot" style="background:#13233f"></span>Car helps <span class="count">${carCount}</span></button>`;
+      }
+      $('chips').innerHTML = html;
+    }
+
+    function areaGroups(list) {
+      let html = '';
+      AREAS.forEach(a => {
+        const items = a.names.map(n => byName[n]).filter(p => p && list.includes(p));
+        if (!items.length) return;
+        html += `<section class="group"><h3><span class="dot" style="background:#e11d48"></span>${a.title}</h3><p class="intro">${a.intro}</p>`
+          + items.map(p => cardHtml(p, { favBadge: false })).join('') + `</section>`;
+      });
+      return html;
+    }
+
+    function renderExplore() {
+      planLayer.clearLayers(); baseLayer.clearLayers();
+      currentMarkers = baseMarkers;
+      const tier = tierList();
+      const matches = p => filterCat === '__car' ? !!p.car : filterCat === '__fav' ? !!p.fav : p.cat === filterCat;
+      if (filterCat && !tier.some(matches)) filterCat = null;
+      if (mode === 'top') filterCat = null;
+      renderChips();
+      const shown = tier.filter(p => !filterCat || matches(p));
+      shown.forEach(p => baseLayer.addLayer(baseMarkers[p.id]));
+      fit(shown);
+      $('legendNote').textContent = `${shown.length} place${shown.length === 1 ? '' : 's'} on the map.`;
+      let html = '';
+      if (mode === 'top' || filterCat === '__fav') {
+        html = areaGroups(shown);
+      } else {
+        CAT_ORDER.forEach(k => {
+          const items = shown.filter(p => p.cat === k); if (!items.length) return;
+          html += `<section class="group"><h3><span class="dot" style="background:${CAT[k].hex}"></span>${CAT[k].icon.replace(/ /g, '')} ${CAT[k].label}</h3>`;
+          if (CAT[k].intro) {
+            let intro = CAT[k].intro;
+            if (k === "Pre-1755 Survivors") intro = intro.replace("a r/portugal thread", `<a href="https://www.reddit.com/r/portugal/comments/1wmnkzy/how_to_spot_houses_that_survived_the_1755_lisbon/" target="_blank" rel="noopener">a r/portugal thread</a>`);
+            html += `<p class="intro">${intro}</p>`;
+          }
+          html += items.map(p => cardHtml(p, { favBadge: true })).join('') + `</section>`;
+        });
+      }
+      $('content').innerHTML = html;
+    }
+
+    function renderPlanControls() {
+      $('plans').innerHTML = PLANS.map(pl => `<button type="button" class="plan-btn" data-plan="${pl.key}" aria-pressed="${pl.key === planKey}"><strong>${pl.title}</strong><span>${pl.length}. ${pl.sub}.</span></button>`).join('');
+      const plan = PLANS.find(x => x.key === planKey);
+      $('days').innerHTML = plan.days.map((d, i) => `<button type="button" class="day-btn" data-day="${i}" aria-pressed="${i === dayIdx}">Day ${i + 1}</button>`).join('');
+    }
+
+    function renderPlan() {
+      baseLayer.clearLayers(); planLayer.clearLayers();
+      renderPlanControls();
+      const plan = PLANS.find(x => x.key === planKey);
+      if (dayIdx >= plan.days.length) dayIdx = 0;
+      const day = DAYS[plan.days[dayIdx]];
+      const stops = day.stops.map(n => byName[n]).filter(Boolean);
+      currentMarkers = {};
+      const latlngs = [];
+      stops.forEach((p, i) => {
+        const m = L.marker([p.lat, p.lng], { icon: numIcon(CAT[p.cat].hex, i + 1) });
+        m.bindPopup(popupHtml(p, i + 1));
+        planLayer.addLayer(m); currentMarkers[p.id] = m; latlngs.push([p.lat, p.lng]);
+      });
+      if (latlngs.length > 1) planLayer.addLayer(L.polyline(latlngs, { color: '#1b4b9b', weight: 3, opacity: .75, dashArray: '6 8' }));
+      fit(stops);
+      $('legendNote').textContent = 'Walking times are rough estimates from the straight-line distance.';
+      let html = `<div class="day-head"><h3>Day ${dayIdx + 1}: ${day.title}</h3><p>${day.blurb}</p></div>`;
+      if (day.how) html += `<div class="how"><strong>Getting there.</strong> ${day.how}</div>`;
+      html += '<ol class="stops">';
+      stops.forEach((p, i) => {
+        html += `<li class="stop"><span class="num" style="background:${CAT[p.cat].hex}">${i + 1}</span>${cardHtml(p, { favBadge: true })}</li>`;
+        if (i < stops.length - 1) html += `<li class="leg" aria-hidden="false">${legText(p, stops[i + 1])}</li>`;
+      });
+      html += '</ol>';
+      $('content').innerHTML = html;
+    }
+
+    function render() {
+      document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === mode));
+      $('modeNote').textContent = MODE_NOTE[mode];
+      const isPlan = mode === 'plan';
+      $('exploreControls').hidden = isPlan || mode === 'top';
+      $('planControls').hidden = !isPlan;
+      isPlan ? renderPlan() : renderExplore();
+      setTimeout(() => map.invalidateSize(), 0);
+    }
+
+    /* Events */
+    document.querySelector('.modes').addEventListener('click', e => {
+      const b = e.target.closest('button[data-mode]'); if (!b) return;
+      mode = b.dataset.mode; if (mode !== 'plan') filterCat = null; render();
+    });
+    $('chips').addEventListener('click', e => {
+      const b = e.target.closest('button[data-cat]'); if (!b) return;
+      const c = b.dataset.cat || null; filterCat = (c && c === filterCat) ? null : c; renderExplore();
+    });
+    $('plans').addEventListener('click', e => {
+      const b = e.target.closest('button[data-plan]'); if (!b) return;
+      planKey = b.dataset.plan; dayIdx = 0; renderPlan();
+    });
+    $('days').addEventListener('click', e => {
+      const b = e.target.closest('button[data-day]'); if (!b) return;
+      dayIdx = +b.dataset.day; renderPlan();
+    });
+    $('content').addEventListener('click', e => {
+      const b = e.target.closest('button[data-focus]');
+      if (b) { focusPlace(places[+b.dataset.focus]); return; }
+      if (e.target.closest('a')) return;
+      const card = e.target.closest('.place'); if (card) focusPlace(places[+card.dataset.id]);
+    });
+
+    render();
+  </script>
+</body>
+
+</html>
